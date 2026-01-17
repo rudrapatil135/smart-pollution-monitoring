@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Air Quality Intelligence Dashboard</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+</head>
+
+<body>
+
+<header class="app-header">
+  <h1>Air Quality Intelligence Dashboard</h1>
+  <p>Delhi-NCR | Geo-spatial Analysis</p>
+</header>
+
+<section class="main-section">
+
+  <!-- AQI MONITORING -->
+  <h2>AQI Monitoring</h2>
+
+  <div class="kpi-container">
+    <div class="kpi-card">
+      <span>Average AQI</span>
+      <h3 id="avg">--</h3>
+    </div>
+    <div class="kpi-card">
+      <span>Maximum AQI</span>
+      <h3 id="max">--</h3>
+    </div>
+    <div class="kpi-card">
+      <span>Locations</span>
+      <h3 id="count">--</h3>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Station</th>
+        <th>Latitude, Longitude</th>
+        <th>PM2.5</th>
+        <th>AQI</th>
+        <th>Category</th>
+      </tr>
+    </thead>
+    <tbody id="table"></tbody>
+  </table>
+
+  <h3>Spatial AQI Distribution</h3>
+  <div id="map"></div>
+
+  <!-- CAUSE ANALYSIS -->
+  <h2>Pollution Cause Analysis</h2>
+
+  <div id="charts"></div>
+
+</section>
+
+<footer>
+  <p>Environmental Analytics Dashboard</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
