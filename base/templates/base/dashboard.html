@@ -1,0 +1,91 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+Home | AI Pollution Platform
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero text-center">
+    <h1>Breathe Smart. Live Better.</h1>
+    <p>AI-Powered Pollution Monitoring, Forecasting & Policy Intelligence</p>
+    <a href="#" class="btn btn-primary mt-3">View Live Dashboard</a>
+</section>
+
+<<!-- FEATURES -->
+<div class="container my-5">
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <a href="{% url 'pollution' %}" class="text-decoration-none text-dark">
+                <div class="feature-card text-center">
+                    <div class="feature-icon">📡</div>
+                    <h4>Real-Time Monitoring</h4>
+                    <p>Live AQI tracking using APIs & sensors.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">🤖</div>
+                <h4>AI Forecast</h4>
+                <p>Predict pollution for next 24–72 hours.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">🚨</div>
+                <h4>Smart Alerts</h4>
+                <p>Health alerts during high AQI.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">🛣️</div>
+                <h4>Safe Routes</h4>
+                <p>Low pollution route suggestions.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">📊</div>
+                <h4>Policy Insights</h4>
+                <p>Data-driven governance insights.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <div class="feature-icon">🛰️</div>
+                <h4>Satellite Analytics</h4>
+                <p>High-resolution pollution data.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- MAP SECTION -->
+<section class="container my-5">
+    <h2 class="text-center mb-4">🌍 Live AQI Map</h2>
+    <div id="map"></div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="container my-5 text-center">
+    <h2 class="mb-4">How Our AI Works</h2>
+    <div class="row">
+        <div class="col-md-3">📡 Data Collection</div>
+        <div class="col-md-3">🧠 AI Analysis</div>
+        <div class="col-md-3">📈 Forecasting</div>
+        <div class="col-md-3">🚨 Alerts</div>
+    </div>
+</section>
+
+{% endblock %}

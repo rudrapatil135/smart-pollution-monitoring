@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Air Quality Intelligence Dashboard</title>
+  <link rel="stylesheet" href="{% static 'my_app/style.css' %}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f3f4f6; }
+    header, footer { text-align: center; padding: 1rem; background: #1f2937; color: #fff; }
+    .main-section { padding: 2rem; max-width: 1200px; margin: auto; }
+    .kpi-container { display: flex; gap: 1rem; margin-bottom: 2rem; }
+    .kpi-card { background: #fff; padding: 1rem; border-radius: 8px; flex: 1; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+    #map { height: 400px; margin: 1rem 0; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; }
+    th, td { padding: 0.75rem; text-align: center; border-bottom: 1px solid #e5e7eb; }
+    th { background: #2563eb; color: #fff; }
+    .good { color: #ffffff; }
+    .moderate { color: #f3f3f3; }
+    .poor { color: #dc2626; }
+    .donut-wrapper { display: inline-block; margin: 1rem; text-align: center; }
+    .donut-title { margin-bottom: 0.5rem; font-weight: bold; }
+  </style>
+</head>
+
+<body>
+<header class="app-header">
+  <h1>Air Quality Intelligence Dashboard</h1>
+  <p>Delhi-NCR | Geo-spatial Analysis</p>
+</header>
+
+<section class="main-section">
+  <h2>AQI Monitoring</h2>
+
+  <div class="kpi-container">
+    <div class="kpi-card">
+      <span>Average AQI</span>
+      <h3 id="avg">--</h3>
+    </div>
+    <div class="kpi-card">
+      <span>Maximum AQI</span>
+      <h3 id="max">--</h3>
+    </div>
+    <div class="kpi-card">
+      <span>Locations</span>
+      <h3 id="count">--</h3>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Locations</th>
+        <th>Latitude, Longitude</th>
+        <th>PM2.5</th>
+        <th>AQI</th>
+        <th>Category</th>
+      </tr>
+    </thead>
+    <tbody id="table"></tbody>
+  </table>
+<button id="viewMoreBtn" class="view-more-btn">View More</button>
+
+  <h3>Spatial AQI Distribution</h3>
+  <div id="map"></div>
+
+  <h2>Pollution Cause Analysis</h2>
+  <div id="charts"></div>
+</section>
+
+<footer>
+  <p>Environmental Analytics Dashboard</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="{% static 'my_app/app.js' %}"></script>
+</body>
+</html>

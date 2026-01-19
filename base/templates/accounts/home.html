@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Pollution Monitoring</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .nav-buttons a {
+            margin-left: 15px;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-buttons a:hover {
+            background: #00e676;
+            color: #000;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 50px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+        }
+
+        .hero span {
+            color: #00e676;
+        }
+
+        .hero p {
+            margin-top: 15px;
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 14px 34px;
+            font-size: 16px;
+            background: #00e676;
+            color: #000;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        /* FEATURES */
+        .features a{
+            text-decoration: none;
+            color:inherit;
+            display:block;
+        }
+        .features a: hover{
+            text-decoration: none;
+            color: inherit;
+        }
+        .features {
+        display: grid;
+            grid-template-columns: repeat(3, 1fr); /* force 3 cards per row */
+            gap: 30px;
+            padding: 60px;
+        }
+        /* Responsive for smaller screens */
+        @media (max-width: 992px) {
+        .features {
+            grid-template-columns: repeat(2, 1fr); /* 2 cards per row on tablets */
+    }
+}
+
+        @media (max-width: 600px) {
+            .features {
+                grid-template-columns: 1fr; /* 1 card per row on mobile */
+    }
+}
+
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .card h3 {
+            margin: 15px 0;
+            font-size: 20px;
+        }
+
+        .card p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="logo">🌍 Smart Pollution</div>
+        <div class="nav-buttons">
+            <a href="#">Policy Dashboard</a>
+            <a href="#">Citizen Portal</a>
+            <a href="#">Login</a>
+            <a href="#">Sign Up</a>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>AI-Driven <span>Pollution Monitoring</span></h1>
+        <p>Real-time air quality insights • Smart alerts • Data-driven policy decisions</p>
+        <a href="#" class="cta-btn">🚀 Get Started</a>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features">
+        <a href='{% url 'pollution' %}' class = "text-decoration-none text-dark">
+            <div class="card">
+                <h3>📡 Real-Time Monitoring</h3>
+                <p>Live AQI tracking using satellite data & government APIs.</p>
+            </div>
+        </a>
+
+        <div class="card">
+            <h3>🤖 AI-Powered Forecasts</h3>
+            <p>Predict pollution trends before they become dangerous.</p>
+        </div>
+
+        <div class="card">
+            <h3>🚨 Smart Alerts</h3>
+            <p>Instant alerts for high pollution zones & health risks.</p>
+        </div>
+
+        <div class="card">
+            <h3>📊 Policy Insights</h3>
+            <p>Help governments take data-backed environmental decisions.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛣️ Safe Routes</h3>
+            <p>Find the healthiest paths for your daily commute based on AQI levels.</p>
+        </div>
+
+        <div class="card">
+            <h3>🛰️ Satellite Analysis</h3>
+            <p>Monitor pollution patterns across regions using satellite imagery.</p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 Smart Pollution Monitoring • Built with AI for a Cleaner Future
+    </footer>
+
+</body>
+</html>
