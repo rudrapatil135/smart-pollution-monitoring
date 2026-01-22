@@ -6,10 +6,12 @@ from django.contrib.auth.models import User
 from .models import Profile
 from django.contrib.auth import login as auth_login 
 from base.forms import SignUpForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+
 def dashboard(request):
-    return render(request,"base/dashboard.html")
+    return render(request,"accounts/home.html")
 def home(request):
     return render(request,"accounts/home.html")
 def login(request):
