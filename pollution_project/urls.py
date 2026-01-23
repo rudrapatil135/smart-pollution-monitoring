@@ -7,4 +7,5 @@ urlpatterns = [
     path('',include('base.urls')),
     path('api/',include('pollution.urls')),
     path('pollution/',include('pollution.urls')),
+    path('policy/',include('policy.urls')),
 ]
