@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Policy Dashboard{% endblock %}</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* Top Navbar */
+        .top-nav {
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-nav h2 {
+            margin: 0;
+        }
+
+        .top-nav .nav-actions a {
+            margin-left: 15px;
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Layout */
+        .layout {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: #ffffff;
+            padding: 20px;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .sidebar h4 {
+            margin-bottom: 15px;
+            color: #374151;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            text-decoration: none;
+            color: #374151;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #e0e7ff;
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 🔵 TOP NAVBAR -->
+<div class="top-nav">
+    <div>
+        <h2>Policy Dashboard</h2>
+        <small>Decision Support & Intervention Analysis</small>
+    </div>
+
+    <div class="nav-actions">
+        <a href="#">Citizen Dashboard</a>
+        <a href="#">My Alerts</a>
+        <a href="#">Profile</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+</div>
+
+<!-- 🟦 LAYOUT -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h4>Analysis Modules</h4>
+
+        <a href="#" class="active">Source Attribution</a>
+        <a href="#">Policy Simulation</a>
+        <a href="#">Pollutant Dashboard</a>
+        <a href="#">Historical Trends</a>
+        <a href="#">Satellite Data</a>
+        <a href="#">AQI Forecast</a>
+        <a href="#">Station Details</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        {% block content %}
+        <!-- Child pages inject content here -->
+        {% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>
