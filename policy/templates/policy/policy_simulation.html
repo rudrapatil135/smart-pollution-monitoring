@@ -1,0 +1,281 @@
+{% extends "policy/Base.html" %}
+{% block content %}
+
+<style>
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  padding: 30px;
+}
+
+/* CARD */
+.card {
+  background: var(--card-bg);
+  color: var(--text-color);
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* HEADINGS */
+h3 {
+  margin-bottom: 15px;
+}
+
+/* SLIDERS */
+.slider-group {
+  margin-bottom: 22px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+.slider-desc {
+  font-size: 13px;
+  color: var(--muted-text);
+}
+
+input[type="range"] {
+  width: 100%;
+}
+
+/* AQI IMPACT */
+.impact-box {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.aqi-box {
+  width: 48%;
+  background: var(--hover-bg);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.aqi-value {
+  font-size: 30px;
+  font-weight: bold;
+  color: #f59e0b;
+}
+
+.stat {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* SOURCE GRID */
+.source-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.source-card {
+  background: var(--hover-bg);
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* AI BOX */
+.ai-box {
+  background: linear-gradient(
+    135deg,
+    rgba(99,102,241,0.15),
+    rgba(139,92,246,0.15)
+  );
+  padding: 15px;
+  border-radius: 12px;
+}
+
+.priority {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* RESET BUTTON */
+.reset-btn {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  background: #dc3545;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  opacity: 0.9;
+}
+</style>
+
+<div class="container">
+
+<!-- INTERVENTION CONTROLS -->
+<div class="card">
+<h3>Intervention Controls</h3>
+
+<div class="slider-group">
+  <div class="slider-header">
+    <span>Vehicle Emissions</span>
+    <span id="vVal">0%</span>
+  </div>
+  <input type="range" id="v" min="0" max="100">
+  <p class="slider-desc">Traffic & transport policies</p>
+</div>
+
+<div class="slider-group">
+  <div class="slider-header">
+    <span>Stubble Burning</span>
+    <span id="sVal">0%</span>
+  </div>
+  <input type="range" id="s" min="0" max="100">
+  <p class="slider-desc">Agricultural enforcement</p>
+</div>
+
+<div class="slider-group">
+  <div class="slider-header">
+    <span>Industrial Emissions</span>
+    <span id="iVal">0%</span>
+  </div>
+  <input type="range" id="i" min="0" max="100">
+  <p class="slider-desc">Factory regulations</p>
+</div>
+
+<button class="reset-btn" onclick="resetAll()">Reset Policies</button>
+</div>
+
+<!-- PROJECTED IMPACT -->
+<div class="card">
+<h3>Projected Impact</h3>
+
+<div class="impact-box">
+  <div class="aqi-box">
+    <div>Current AQI</div>
+    <div class="aqi-value">200</div>
+  </div>
+  <div class="aqi-box">
+    <div>Projected AQI</div>
+    <div class="aqi-value" id="pAQI">200</div>
+  </div>
+</div>
+
+<div class="stat">AQI Change: <span id="chg">0</span></div>
+<div class="stat">Improvement: <span id="imp">0%</span></div>
+</div>
+
+<!-- SOURCE IMPACT -->
+<div class="card">
+<h3>Source-wise Impact</h3>
+
+<div class="source-grid">
+  <div class="source-card">🚗 Vehicles<br><span id="vImp">0</span> µg/m³</div>
+  <div class="source-card">🌾 Stubble<br><span id="sImp">0</span> µg/m³</div>
+  <div class="source-card">🏭 Industry<br><span id="iImp">0</span> µg/m³</div>
+  <div class="source-card">🌪 Dust<br>5 µg/m³</div>
+</div>
+</div>
+
+<!-- AI POLICY ASSISTANT -->
+<div class="card">
+<h3>AI Policy Assistant</h3>
+
+<div class="ai-box">
+  <div class="priority" id="priority">Priority: LOW</div>
+  <p id="summary">Air quality is under control.</p>
+  <p id="advice"><b>Recommended Action:</b> Maintain monitoring.</p>
+</div>
+</div>
+
+</div>
+
+<script>
+const currentAQI = 200;
+const dust = 5;
+
+const vSlider = document.getElementById("v");
+const sSlider = document.getElementById("s");
+const iSlider = document.getElementById("i");
+
+const vVal = document.getElementById("vVal");
+const sVal = document.getElementById("sVal");
+const iVal = document.getElementById("iVal");
+
+const pAQI = document.getElementById("pAQI");
+const chg = document.getElementById("chg");
+const imp = document.getElementById("imp");
+
+const vImpEl = document.getElementById("vImp");
+const sImpEl = document.getElementById("sImp");
+const iImpEl = document.getElementById("iImp");
+
+const priority = document.getElementById("priority");
+const summary = document.getElementById("summary");
+const advice = document.getElementById("advice");
+
+function update() {
+  const v = +vSlider.value;
+  const s = +sSlider.value;
+  const i = +iSlider.value;
+
+  vVal.innerText = v + "%";
+  sVal.innerText = s + "%";
+  iVal.innerText = i + "%";
+
+  const vImp = (v * 0.25).toFixed(1);
+  const sImp = (s * 0.2).toFixed(1);
+  const iImp = (i * 0.3).toFixed(1);
+
+  const total = +vImp + +sImp + +iImp + dust;
+  const proj = Math.max(0, currentAQI - total);
+
+  pAQI.innerText = proj;
+  chg.innerText = currentAQI - proj;
+  imp.innerText = (((currentAQI - proj) / currentAQI) * 100).toFixed(1) + "%";
+
+  vImpEl.innerText = vImp;
+  sImpEl.innerText = sImp;
+  iImpEl.innerText = iImp;
+
+  fetchAIDecision(v, s, i);
+}
+
+function fetchAIDecision(v, s, i) {
+  fetch("/policy/ai-policy-decision/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-CSRFToken": "{{ csrf_token }}"
+    },
+    body: `vehicle=${v}&stubble=${s}&industry=${i}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    priority.innerText = "Priority: " + data.priority;
+    summary.innerText = data.summary;
+    advice.innerHTML = "<b>Recommended Action:</b> " + data.advice;
+  });
+}
+
+function resetAll() {
+  vSlider.value = 0;
+  sSlider.value = 0;
+  iSlider.value = 0;
+  update();
+}
+
+vSlider.oninput = update;
+sSlider.oninput = update;
+iSlider.oninput = update;
+</script>
+
+{% endblock %}

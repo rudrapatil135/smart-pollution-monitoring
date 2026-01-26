@@ -9,16 +9,62 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- 🌗 THEME SCRIPT -->
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle("dark-theme");
+
+            const isDark = document.body.classList.contains("dark-theme");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+
+            document.getElementById("theme-icon").className =
+                isDark ? "fas fa-sun" : "fas fa-moon";
+        }
+
+        window.onload = () => {
+            if (localStorage.getItem("theme") === "dark") {
+                document.body.classList.add("dark-theme");
+                document.getElementById("theme-icon").className = "fas fa-sun";
+            }
+        };
+    </script>
+
     <style>
+        /* 🌞 LIGHT THEME */
+        :root {
+            --bg-color: #f4f6f9;
+            --nav-bg: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-color: #111827;
+            --muted-text: #6b7280;
+            --border-color: #e5e7eb;
+            --hover-bg: #e0e7ff;
+        }
+
+        /* 🌙 DARK THEME */
+        .dark-theme {
+            --bg-color: #0f172a;
+            --nav-bg: linear-gradient(90deg, #020617, #1e1b4b);
+            --sidebar-bg: #020617;
+            --card-bg: #1e293b;
+            --text-color: #e5e7eb;
+            --muted-text: #9ca3af;
+            --border-color: #334155;
+            --hover-bg: #1e40af;
+        }
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
         }
 
-        /* Top Navbar */
+        /* 🔵 TOP NAVBAR */
         .top-nav {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            background: var(--nav-bg);
             color: white;
             padding: 15px 25px;
             display: flex;
@@ -30,7 +76,7 @@
             margin: 0;
         }
 
-        .top-nav .nav-actions a {
+        .nav-actions a {
             margin-left: 15px;
             color: white;
             text-decoration: none;
@@ -40,23 +86,27 @@
             font-size: 14px;
         }
 
-        /* Layout */
+        .nav-actions a:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* 🟦 LAYOUT */
         .layout {
             display: flex;
             height: calc(100vh - 70px);
         }
 
-        /* Sidebar */
+        /* 📁 SIDEBAR */
         .sidebar {
             width: 240px;
-            background: #ffffff;
+            background: var(--sidebar-bg);
             padding: 20px;
-            border-right: 1px solid #e5e7eb;
+            border-right: 1px solid var(--border-color);
         }
 
         .sidebar h4 {
             margin-bottom: 15px;
-            color: #374151;
+            color: var(--text-color);
         }
 
         .sidebar a {
@@ -64,24 +114,26 @@
             padding: 10px 12px;
             margin-bottom: 6px;
             text-decoration: none;
-            color: #374151;
+            color: var(--text-color);
             border-radius: 6px;
             font-size: 14px;
         }
 
         .sidebar a:hover,
         .sidebar a.active {
-            background: #e0e7ff;
-            color: #1d4ed8;
+            background: var(--hover-bg);
+            color: white;
             font-weight: bold;
         }
 
-        /* Main Content */
+        /* 📄 MAIN CONTENT */
         .main-content {
             flex: 1;
             padding: 25px;
             overflow-y: auto;
+            background: var(--bg-color);
         }
+
     </style>
 </head>
 
@@ -99,29 +151,31 @@
         <a href="#">My Alerts</a>
         <a href="#">Profile</a>
         <a href="{% url 'logout' %}">Logout</a>
+        <a href="#" onclick="toggleTheme()" title="Toggle Theme">
+            <i id="theme-icon" class="fas fa-moon"></i>
+        </a>
     </div>
 </div>
 
-<!-- 🟦 LAYOUT -->
+<!-- 🟦 PAGE LAYOUT -->
 <div class="layout">
 
-    <!-- SIDEBAR -->
+    <!-- 📁 SIDEBAR -->
     <div class="sidebar">
         <h4>Analysis Modules</h4>
 
-        <a href="#" class="active">Source Attribution</a>
-        <a href="#">Policy Simulation</a>
-        <a href="#">Pollutant Dashboard</a>
+        <a href="{% url 'source_attribution' %}" class="{% if request.path == '/source_attribution/' %}active{% endif %}">Source Attribution</a>
+        <a href="{% url 'policy_simulation' %}" class="{% if request.path == '/policy_simulation/' %}active{% endif %}">Policy Simulation</a>
+        <a href="{% url 'policy_dashboard' %}" class="{% if request.path == '/policy_dashboard/' %}active{% endif %}">Pollutant Dashboard</a>
         <a href="#">Historical Trends</a>
         <a href="#">Satellite Data</a>
         <a href="#">AQI Forecast</a>
         <a href="#">Station Details</a>
     </div>
 
-    <!-- MAIN CONTENT -->
+    <!-- 📄 MAIN CONTENT -->
     <div class="main-content">
         {% block content %}
-        <!-- Child pages inject content here -->
         {% endblock %}
     </div>
 
