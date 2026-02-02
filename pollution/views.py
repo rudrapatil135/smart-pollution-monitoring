@@ -1,3 +1,4 @@
+
 from pollution.backend.services.realtime_aqi_service import fetch_realtime_delhi_pm25
 from pollution.backend.services.aqi_services import calculate_aqi_pm25 as aqi_pm25
 from pollution.backend.services.aqi_services import calculate_aqi_pm10 as aqi_pm10
@@ -37,3 +38,31 @@ def station_aqi(request):
 @login_required(login_url='login')
 def pollution_page(request):
     return render(request, "pollution/index.html")
+def map_view(request):
+    return render(request,'map.html')
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def forecast_api(request):
+    data = [
+        {
+            "name": "Anand Vihar",
+            "lat": 28.6469,
+            "lon": 77.3159,
+            "forecast": [
+                {"aqi": 275},
+                {"aqi": 280}
+            ]
+        },
+        {
+            "name": "RK Puram",
+            "lat": 28.5672,
+            "lon": 77.2100,
+            "forecast": [
+                {"aqi": 180},
+                {"aqi": 190}
+            ]
+        }
+    ]
+    return JsonResponse(data, safe=False)

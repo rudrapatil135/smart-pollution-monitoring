@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: #020617;
+    color: #e5e7eb;
+}
+
+header {
+    padding: 16px 24px;
+    background: #020617;
+    border-bottom: 1px solid #1e293b;
+}
+
+header h1 {
+    font-size: 1.4rem;
+}
+
+header p {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+#map {
+    height: calc(100vh - 72px);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100%;
+    background: #0f172a;
+    box-shadow: -6px 0 25px rgba(0,0,0,0.5);
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-header {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+}
+
+.sidebar-header h2 {
+    font-size: 1.2rem;
+}
+
+.sidebar-header button {
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: #f87171;
+    cursor: pointer;
+}
+
+.sidebar-content {
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.aqi-box {
+    font-size: 2.6rem;
+    font-weight: bold;
+}
+
+.aqi-level {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin: 10px 0 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+h3 {
+    margin: 18px 0 10px;
+    font-size: 1rem;
+    color: #cbd5f5;
+}
+
+#sidebarAdvice li {
+    margin-bottom: 10px;
+    line-height: 1.45;
+    color: #e5e7eb;
+}
+
+#sidebarForecast p {
+    margin-bottom: 8px;
+    color: #cbd5f5;
+}

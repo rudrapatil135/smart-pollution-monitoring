@@ -1,7 +1,11 @@
 from django.urls import path
-from .views import station_aqi, pollution_page
+from .views import map_view, station_aqi, pollution_page, forecast_api
+from pollution import views
 
 urlpatterns = [
     path('aqi/stations/', station_aqi, name='station_aqi'),
     path('pollution/', pollution_page, name='pollution'),
+    path('pollution/map/',map_view,name='map'),
+    path("forecast/", views.forecast_api, name="forecast_api")
+
 ]

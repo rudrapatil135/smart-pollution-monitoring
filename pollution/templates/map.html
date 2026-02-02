@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Leaflet CSS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#pageWrapper header h1 {
+    color: #ffffff;
+}
+
+#pageWrapper header p {
+    color: #ffffff;
+}
+
+#pageWrapper {
+    transition: margin-right 0.35s ease;
+}
+
+#pageWrapper.shifted {
+    margin-right: 380px; /* same as sidebar width */
+}
+
+header {
+    padding: 16px 24px;
+    background: #020617;
+    border-bottom: 1px solid #1e293b;
+}
+
+header h1 {
+    font-size: 1.4rem;
+}
+
+header p {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+#map {
+    height: calc(100vh - 120px);
+}
+
+.map-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    height: 100%;
+    background: #0f172a;
+    box-shadow: -6px 0 25px rgba(0,0,0,0.5);
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    z-index: 2000;
+    visibility: hidden;
+}
+
+.map-sidebar.active {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+
+.sidebar-header {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #334155;
+}
+
+.sidebar-header h2 {
+    font-size: 1.2rem;
+}
+
+.sidebar-header button {
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: #f87171;
+    cursor: pointer;
+}
+
+.sidebar-content {
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.aqi-box {
+    font-size: 2.6rem;
+    font-weight: bold;
+}
+
+.aqi-level {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin: 10px 0 18px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+h3 {
+    margin: 18px 0 10px;
+    font-size: 1rem;
+    color: #cbd5f5;
+}
+
+#sidebarAdvice li {
+    margin-bottom: 10px;
+    line-height: 1.45;
+    color: #e5e7eb;
+}
+
+#sidebarForecast p {
+    margin-bottom: 8px;
+    color: #cbd5f5;
+}
+</style>
+
+<div id="pageWrapper">
+    <header>
+        <h1>NCR – Air Quality Forecast & Alerts</h1>
+        <p>Interactive AQI Forecast & Smart Health Advisory System</p>
+    </header>
+
+    <div id="map"></div>
+</div>
+
+<!-- Sidebar -->
+<div id="alertSidebar" class="map-sidebar">
+    <div class="sidebar-header">
+        <h2 id="sidebarCity">City</h2>
+        <button id="closeSidebar">&times;</button>
+    </div>
+
+    <div class="sidebar-content">
+        <div id="sidebarAQI" class="aqi-box"></div>
+        <div id="sidebarLevel" class="aqi-level"></div>
+
+        <h3>Health Advisory</h3>
+        <ul id="sidebarAdvice"></ul>
+
+        <h3>Forecast Summary</h3>
+        <div id="sidebarForecast"></div>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+const API_URL = "http://127.0.0.1:8000/api/forecast/";
+
+const sidebar = document.getElementById("alertSidebar");
+const closeBtn = document.getElementById("closeSidebar");
+
+closeBtn.onclick = () => sidebar.classList.remove("active");
+
+const map = L.map("map").setView([28.6139, 77.2090], 10);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors"
+}).addTo(map);
+
+fetch(API_URL)
+    .then(res => res.json())
+    .then(data => data.forEach(addMarker))
+    .catch(err => console.error("API Error:", err));
+
+function addMarker(location) {
+    const current = location.forecast[0];
+    const style = getCircleStyle(current.aqi);
+
+    const circle = L.circleMarker(
+        [location.lat, location.lon],
+        {
+            radius: style.radius,
+            fillColor: style.color,
+            color: style.color,
+            fillOpacity: 0.45
+        }
+    ).addTo(map);
+
+    circle.bindTooltip(
+        `<b>${location.name}</b><br>AQI: ${Math.round(current.aqi)}`
+    );
+
+    circle.on("click", () => showAlertSidebar(location));
+}
+
+function getCircleStyle(aqi) {
+    if (aqi <= 50) return { color: "#22c55e", radius: 7 };
+    if (aqi <= 100) return { color: "#facc15", radius: 9 };
+    if (aqi <= 200) return { color: "#fb923c", radius: 11 };
+    if (aqi <= 300) return { color: "#ef4444", radius: 13 };
+    return { color: "#7f1d1d", radius: 15 };
+}
+
+function showAlertSidebar(location) {
+    const current = location.forecast[0];
+
+    document.getElementById("sidebarCity").innerText = location.name;
+    document.getElementById("sidebarAQI").innerText =
+        `AQI ${Math.round(current.aqi)}`;
+
+    const level = getAQILevel(current.aqi);
+    const levelBox = document.getElementById("sidebarLevel");
+
+    levelBox.innerText = level.label;
+    levelBox.style.background = level.color;
+
+    const adviceList = document.getElementById("sidebarAdvice");
+    adviceList.innerHTML = "";
+    level.advice.forEach(text => {
+        const li = document.createElement("li");
+        li.innerText = text;
+        adviceList.appendChild(li);
+    });
+
+    document.getElementById("sidebarForecast").innerHTML = `
+        <p><b>Next 24h:</b> Avg AQI ~ ${avgAQI(location.forecast.slice(0,24))}</p>
+        <p><b>Next 48h:</b> Avg AQI ~ ${avgAQI(location.forecast.slice(0,48))}</p>
+    `;
+
+    sidebar.classList.add("active");
+}
+
+function avgAQI(list) {
+    const sum = list.reduce((a, b) => a + b.aqi, 0);
+    return Math.round(sum / list.length);
+}
+
+function getAQILevel(aqi) {
+    if (aqi <= 50) return {
+        label: "GOOD",
+        color: "#22c55e",
+        advice: ["Air quality is clean and healthy."]
+    };
+
+    if (aqi <= 100) return {
+        label: "MODERATE",
+        color: "#facc15",
+        advice: ["Sensitive individuals should limit exertion."]
+    };
+
+    if (aqi <= 200) return {
+        label: "POOR",
+        color: "#fb923c",
+        advice: ["Limit outdoor activity."]
+    };
+
+    if (aqi <= 300) return {
+        label: "VERY POOR",
+        color: "#ef4444",
+        advice: ["Avoid outdoor exposure."]
+    };
+
+    return {
+        label: "SEVERE",
+        color: "#7f1d1d",
+        advice: ["Stay indoors. Emergency conditions."]
+    };
+}
+
+// ensure sidebar is closed on load
+sidebar.classList.remove("active");
+
+</script>
+
+{% endblock %}
