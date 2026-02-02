@@ -1,0 +1,10 @@
+# Datasets
+*.csv
+data/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment
+.env
