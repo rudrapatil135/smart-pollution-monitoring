@@ -10,7 +10,6 @@
 
     <style>
         * {
-            
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -28,17 +27,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 60px;
+            padding: 15px 30px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
         }
 
         .logo {
             font-size: 24px;
             font-weight: 700;
             letter-spacing: 1px;
+            margin-bottom: 10px; /* space on wrap */
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .nav-buttons a {
-            margin-left: 15px;
             text-decoration: none;
             padding: 8px 16px;
             border-radius: 20px;
@@ -98,30 +104,17 @@
             color:inherit;
             display:block;
         }
-        .features a: hover{
+        .features a:hover{
             text-decoration: none;
             color: inherit;
         }
         .features {
-        display: grid;
-            grid-template-columns: repeat(3, 1fr); /* force 3 cards per row */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
             padding: 60px;
         }
-        /* Responsive for smaller screens */
-        @media (max-width: 992px) {
-        .features {
-            grid-template-columns: repeat(2, 1fr); /* 2 cards per row on tablets */
-    }
-}
 
-        @media (max-width: 600px) {
-            .features {
-                grid-template-columns: 1fr; /* 1 card per row on mobile */
-    }
-}
-
-        
         .card {
             background: rgba(255, 255, 255, 0.1);
             padding: 30px;
@@ -152,11 +145,43 @@
             font-size: 13px;
             opacity: 0.7;
         }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                justify-content: center;
+            }
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+            }
+            .nav-buttons a {
+                flex: 1 1 45%; /* two links per row */
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .features {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+            .nav-buttons a {
+                flex: 1 1 100%; /* one link per row */
+                margin-bottom: 8px;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <!-- NAVBAR -->
     <div class="navbar">
         <div class="logo">🌍 Smart Pollution</div>
@@ -172,12 +197,12 @@
     <section class="hero">
         <h1>AI-Driven <span>Pollution Monitoring</span></h1>
         <p>Real-time air quality insights • Smart alerts • Data-driven policy decisions</p>
-        <a href="#" class="cta-btn">🚀 Get Started</a>
+        <a href="{% url 'login' %}" class="cta-btn">🚀 Get Started</a>
     </section>
 
     <!-- FEATURES -->
     <section class="features">
-        <a href='{% url 'pollution' %}' class = "text-decoration-none text-dark">
+        <a href='{% url 'pollution' %}' class="text-decoration-none text-dark">
             <div class="card">
                 <h3>📡 Real-Time Monitoring</h3>
                 <p>Live AQI tracking using satellite data & government APIs.</p>
@@ -214,6 +239,5 @@
     <footer>
         © 2026 Smart Pollution Monitoring • Built with AI for a Cleaner Future
     </footer>
-
 </body>
 </html>
