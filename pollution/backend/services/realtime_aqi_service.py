@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 import os
 
-WEATHERAPI_KEY = os.getenv("WEATHERAPI_KEY")
+WEATHERAPI_KEY = "38f0847d929b41e1ad663748262001"
 WEATHERAPI_URL = "https://api.weatherapi.com/v1/current.json"
 
 NCR_POINTS = [

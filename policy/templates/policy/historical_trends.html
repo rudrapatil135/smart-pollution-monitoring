@@ -1,0 +1,50 @@
+{% extends "policy/Base.html" %}
+{% block content %}
+
+<h2 style="margin-bottom:15px;">📈 Historical Pollution Trends (Last 30 Days)</h2>
+<p style="color:#6b7280;margin-bottom:20px;">
+    All major pollutants plotted together for visual comparison.
+</p>
+
+<div class="card">
+    <canvas id="trendChart" height="120"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+fetch("{% url 'historical_trends_data' %}")
+  .then(res => res.json())
+  .then(data => {
+    const ctx = document.getElementById("trendChart").getContext("2d");
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: data.labels,
+        datasets: [
+          { label: "PM2.5", data: data.pm25, borderWidth: 2 },
+          { label: "PM10", data: data.pm10, borderWidth: 2 },
+          { label: "NO₂", data: data.no2, borderWidth: 2 },
+          { label: "SO₂", data: data.so2, borderWidth: 2 },
+          { label: "CO", data: data.co, borderWidth: 2 },
+          { label: "O₃", data: data.o3, borderWidth: 2 },
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: { mode: "index", intersect: false },
+        plugins: {
+          legend: { position: "bottom" }
+        },
+        scales: {
+          y: { beginAtZero: true }
+        }
+      }
+    });
+  })
+  .catch(err => console.error(err));
+</script>
+
+
+{% endblock %}

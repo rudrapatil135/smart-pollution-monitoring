@@ -1,0 +1,120 @@
+{% extends "policy/Base.html" %}
+{% block content %}
+
+<h2 style="margin-bottom:30px; font-weight:700; font-size:28px; color:#1f2937;">
+    📍 Station Monitoring Overview
+</h2>
+
+<div style="
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+">
+
+<table style="width:100%; border-collapse: collapse; font-family: 'Segoe UI', Roboto, sans-serif; font-size:16px;">
+
+    <thead>
+        <tr style="background:#f9fafb; color:#374151; border-bottom:2px solid #e5e7eb;">
+            <th style="padding:20px;">Location</th>
+            <th style="padding:20px;">Coordinates</th>
+            <th style="padding:20px; text-align:right;">PM2.5</th>
+            <th style="padding:20px; text-align:right;">PM10</th>
+            <th style="padding:20px; text-align:right;">AQI</th>
+            <th style="padding:20px; text-align:center;">Category</th>
+        </tr>
+    </thead>
+
+    <tbody style="color:#374151;">
+
+        <!-- New Delhi -->
+        <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:20px; font-weight:600;">New Delhi</td>
+            <td style="padding:20px; color:#6b7280;">28.6139, 77.2090</td>
+            <td style="padding:20px; text-align:right;">83.75</td>
+            <td style="padding:20px; text-align:right;">87.65</td>
+            <td style="padding:20px; text-align:right; font-weight:bold;">179.38</td>
+            <td style="padding:20px; text-align:center;">
+                <span style="background:#fff7ed; color:#c2410c; padding:8px 14px; border-radius:25px; font-weight:bold;">
+                    ● Unhealthy
+                </span>
+            </td>
+        </tr>
+
+        <!-- Badarpur -->
+        <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:20px; font-weight:600;">Badarpur</td>
+            <td style="padding:20px; color:#6b7280;">28.5355, 77.3910</td>
+            <td style="padding:20px; text-align:right;">93.55</td>
+            <td style="padding:20px; text-align:right;">99.85</td>
+            <td style="padding:20px; text-align:right; font-weight:bold;">212.72</td>
+            <td style="padding:20px; text-align:center;">
+                <span style="background:#fef2f2; color:#b91c1c; padding:8px 14px; border-radius:25px; font-weight:bold;">
+                    ● Very Unhealthy
+                </span>
+            </td>
+        </tr>
+
+        <!-- Ghaziabad -->
+        <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:20px; font-weight:600;">Ghaziabad</td>
+            <td style="padding:20px; color:#6b7280;">28.6692, 77.4538</td>
+            <td style="padding:20px; text-align:right;">80.25</td>
+            <td style="padding:20px; text-align:right;">84.65</td>
+            <td style="padding:20px; text-align:right; font-weight:bold;">167.82</td>
+            <td style="padding:20px; text-align:center;">
+                <span style="background:#fff7ed; color:#c2410c; padding:8px 14px; border-radius:25px; font-weight:bold;">
+                    ● Unhealthy
+                </span>
+            </td>
+        </tr>
+
+        <!-- Gurgaon -->
+        <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:20px; font-weight:600;">Gurgaon</td>
+            <td style="padding:20px; color:#6b7280;">28.4595, 77.0266</td>
+            <td style="padding:20px; text-align:right;">93.55</td>
+            <td style="padding:20px; text-align:right;">99.85</td>
+            <td style="padding:20px; text-align:right; font-weight:bold;">212.72</td>
+            <td style="padding:20px; text-align:center;">
+                <span style="background:#fef2f2; color:#b91c1c; padding:8px 14px; border-radius:25px; font-weight:bold;">
+                    ● Very Unhealthy
+                </span>
+            </td>
+        </tr>
+
+        <!-- Faridabad -->
+        <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:20px; font-weight:600;">Faridabad</td>
+            <td style="padding:20px; color:#6b7280;">28.4089, 77.3178</td>
+            <td style="padding:20px; text-align:right;">93.55</td>
+            <td style="padding:20px; text-align:right;">99.85</td>
+            <td style="padding:20px; text-align:right; font-weight:bold;">212.72</td>
+            <td style="padding:20px; text-align:center;">
+                <span style="background:#fef2f2; color:#b91c1c; padding:8px 14px; border-radius:25px; font-weight:bold;">
+                    ● Very Unhealthy
+                </span>
+            </td>
+        </tr>
+
+        <!-- Surajpur -->
+        <tr>
+            <td style="padding:20px; font-weight:600;">Surajpur</td>
+            <td style="padding:20px; color:#6b7280;">28.4744, 77.5040</td>
+            <td style="padding:20px; text-align:right;">80.25</td>
+            <td style="padding:20px; text-align:right;">84.65</td>
+            <td style="padding:20px; text-align:right; font-weight:bold;">167.82</td>
+            <td style="padding:20px; text-align:center;">
+                <span style="background:#fff7ed; color:#c2410c; padding:8px 14px; border-radius:25px; font-weight:bold;">
+                    ● Unhealthy
+                </span>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+</div>
+
+{% endblock %}

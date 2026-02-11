@@ -66,3 +66,4 @@ def forecast_api(request):
         }
     ]
     return JsonResponse(data, safe=False)
+

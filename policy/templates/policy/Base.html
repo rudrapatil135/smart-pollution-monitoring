@@ -167,10 +167,11 @@
         <a href="{% url 'source_attribution' %}" class="{% if request.path == '/source_attribution/' %}active{% endif %}">Source Attribution</a>
         <a href="{% url 'policy_simulation' %}" class="{% if request.path == '/policy_simulation/' %}active{% endif %}">Policy Simulation</a>
         <a href="{% url 'policy_dashboard' %}" class="{% if request.path == '/policy_dashboard/' %}active{% endif %}">Pollutant Dashboard</a>
-        <a href="#">Historical Trends</a>
-        <a href="#">Satellite Data</a>
-        <a href="#">AQI Forecast</a>
-        <a href="#">Station Details</a>
+        <a href="{% url 'historical_trends' %}" class="{% if request.path == '/historical-trends/' %}active{% endif %}">Historical Trends</a>
+        <a href="{% url 'station_details' %}" class="{% if request.path == '/policy/station-details/' %}active{% endif %}">Station Details</a>
+        <a href="{% url 'aqi_forecast' %}" class="{% if request.path == '/policy/aqi-forecast/' %}active{% endif %}">AQI Forecast</a>
+        <a href="{% url 'satellite_data' %}" class="{% if request.path == '/policy/satellite-data/' %}active{% endif %}">Satellite Data</a>
+
     </div>
 
     <!-- 📄 MAIN CONTENT -->

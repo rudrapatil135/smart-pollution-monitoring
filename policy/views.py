@@ -9,6 +9,8 @@ from .models import PollutantReading
 import logging
 logger = logging.getLogger(__name__)
 from django.http import JsonResponse
+from .models import Station
+
 # ---------------------------
 # Policy Views
 # ---------------------------
@@ -135,3 +137,66 @@ def ai_policy_decision(request):
     except ValueError as e:
         logger.error(f"Invalid input for AI policy decision: {e}")
         return JsonResponse({"error": "Invalid numeric input"}, status=400)
+
+from django.http import JsonResponse
+from django.utils import timezone
+from datetime import timedelta
+from .models import PollutantReading
+
+@login_required
+def historical_trends(request):
+    if getattr(request.user, 'profile', None) and request.user.profile.role != "policy":
+        return redirect("home")
+    return render(request, "policy/historical_trends.html")
+
+def historical_trends_data(request):
+    end_date = timezone.now()
+    start_date = end_date - timedelta(days=30)
+
+    readings = PollutantReading.objects.filter(
+        timestamp__range=(start_date, end_date)
+    ).order_by("timestamp")
+
+    data = {
+        "labels": [],
+        "pm25": [],
+        "pm10": [],
+        "no2": [],
+        "so2": [],
+        "co": [],
+        "o3": [],
+    }
+
+    for r in readings:
+        data["labels"].append(r.timestamp.strftime("%d %b"))
+        data["pm25"].append(r.pm25)
+        data["pm10"].append(r.pm10)
+        data["no2"].append(r.no2)
+        data["so2"].append(r.so2)
+        data["co"].append(r.co)
+        data["o3"].append(r.o3)
+
+    return JsonResponse(data)
+
+
+@login_required
+def station_details(request):
+    stations = Station.objects.all()
+    return render(request, "policy/station_details.html", {"stations": stations})
+
+@login_required
+def aqi_forecast(request):
+    return render(request, "policy/aqi_forecast.html", {
+        "title": "AQI Forecast Module",
+        "description": "AI-powered air quality forecasting system will provide predictive AQI levels, trend analysis, and risk alerts for upcoming days."
+    })
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+@login_required
+def satellite_data(request):
+    return render(request, "policy/satellite_data.html", {
+        "title": "Satellite Pollution Monitoring",
+        "description": "Satellite-based atmospheric monitoring module will integrate real-time aerosol, NO₂, and PM concentration data from remote sensing platforms like Sentinel and NASA satellites."
+    })
