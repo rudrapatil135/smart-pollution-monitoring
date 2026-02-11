@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+
 @csrf_exempt
 def station_aqi(request):
     stations = fetch_realtime_delhi_pm25()
@@ -67,3 +68,9 @@ def forecast_api(request):
     ]
     return JsonResponse(data, safe=False)
 
+def routes(request):
+    return render(request,"routes.html")
+def alerts(request):
+    return render(request,'alerts.html')
+def satellite(request):
+    return render(request,'satellite.html')
