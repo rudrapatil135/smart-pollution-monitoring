@@ -1,13 +1,5 @@
-# Datasets
-*.csv
-data/
-
-# Database
-db.sqlite3
-
-# Python cache
 __pycache__/
 *.pyc
-
-# Environment
+db.sqlite3
 .env
+venv/
